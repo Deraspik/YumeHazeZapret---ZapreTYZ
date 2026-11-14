@@ -27,7 +27,7 @@
 - Свои списки (`*user*.txt`), игровой фильтр, исключения и импортированные `.bat`-стратегии
   больше **не стираются** при обновлении zapret.
 - Установка идёт в временную папку и только потом подменяет компонент — битый архив
-  не ломает рабочую версию. Перед обновлением делается резервная копия (последние 3 — в `%APPDATA%\ZapreTYZ\backups`).
+  не ломает рабочую версию. Перед обновлением делается резервная копия (последние 3 — в `%APPDATA%\Yume Haze Zapret\backups`).
 - Служба останавливается на время обновления и поднимается уже на новой версии; если выбранная
   стратегия исчезла из релиза, программа сама переключится на `general.bat`.
 - Проверка и установка работают через зеркала GitHub (без VPN), есть автообновление при запуске
@@ -68,8 +68,8 @@
 
 `YumeHazeZapret-portable.zip` (29 МБ) — распаковал и запустил, установщик не нужен:
 
-- `ZapreTYZ-portable.bat` — обычный запуск (запросит права администратора, они нужны WinDivert);
-- `ZapreTYZ-portable-console.bat` — то же с консолью, видно ошибки, если что-то не стартует;
+- `Yume-Haze-Zapret-portable.bat` — обычный запуск (запросит права администратора, они нужны WinDivert);
+- `Yume-Haze-Zapret-portable-console.bat` — то же с консолью, видно ошибки, если что-то не стартует;
 - настройки, бэкапы и логи лежат в папке `data` рядом с программой — папку можно целиком
   переносить на флешке, профиль Windows не засоряется.
 
@@ -85,6 +85,12 @@ python packaging/make_portable.py --zip
 
 Готовый `.exe` собирается только на Windows — из исходников его не получить на Linux/macOS.
 
+**Вариант 0 — ничего не собирать:** возьмите `Yume Haze Zapret.exe` (29 МБ) из раздела Releases.
+Это один файл: скачал → запустил → работает. Внутри уже есть Python, PySide6, zapret 1.10.4
+и tg-ws-proxy 1.11.4, поэтому ставить ничего не надо. При первом запуске рядом с exe
+появится папка `components\` — там zapret и прокси, их можно править руками.
+Консольных окон нет: приложение собрано PyInstaller-ом в режиме GUI (`console=False`).
+
 **Вариант 1 — своими руками (Windows):** Python 3.12 + Inno Setup 6, затем `build.bat`.
 Скрипт скачает zapret 1.10.4 и tg-ws-proxy 1.11.4 в `components/`, соберёт программу
 через PyInstaller и упакует установщик в `release\YumeHazeZapret_Setup_2.1.0.exe`.
@@ -94,9 +100,17 @@ python packaging/make_portable.py --zip
 **Actions → Build Yume Haze Zapret → Run workflow** и дождитесь артефактов:
 
 - `YumeHazeZapret_Setup` — установщик (`YumeHazeZapret_Setup_2.1.0.exe`);
-- `YumeHazeZapret_portable` — та же программа без установщика (папка `dist\ZapreTYZ`).
+- `YumeHazeZapret_portable` — та же программа без установщика (папка `dist\Yume Haze Zapret`).
 
 Пуш тега `v2.1.0` дополнительно прикрепляет установщик к GitHub Release.
+
+**Вариант 3 — собрать .exe на Linux (так собран релизный):**
+```
+bash packaging/build_exe_wine.sh          # → dist\Yume Haze Zapret.exe, один файл
+bash packaging/build_installer_linux.sh   # опционально: установщик Inno Setup
+```
+Скрипт ставит wine + Inno Setup 6.7.4, компилирует запускатор `Yume Haze Zapret.exe` (C + иконка +
+манифест администратора), собирает раскладку и вызывает `ISCC.exe` под wine.
 
 ## Структура
 
@@ -111,7 +125,7 @@ python packaging/make_portable.py --zip
 | `packaging/fetch_components.py` | загрузка zapret и tg-ws-proxy в сборку |
 | `packaging/` | PyInstaller spec, Inno Setup |
 
-Настройки хранятся в `%APPDATA%\ZapreTYZ`.
+Настройки хранятся в `%APPDATA%\Yume Haze Zapret`.
 
 ## Лицензия
 
