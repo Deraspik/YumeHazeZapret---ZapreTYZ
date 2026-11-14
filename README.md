@@ -1,4 +1,4 @@
-# Yume Haze Zapret (ZapreTYZ)
+# Yume Haze Zapret
 
 Удобная программа для Windows, которая объединяет в одном окне
 [zapret-discord-youtube](https://github.com/Flowseal/zapret-discord-youtube) и
